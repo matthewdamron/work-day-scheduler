@@ -1,3 +1,5 @@
+var dayTasks = [];
+
 // pull and set current date form moment
 $('#currentDay').text(moment().format('MMMM Do YYYY'));
 
@@ -44,9 +46,11 @@ var setHoursOfDay = function() {
             .text(moment({hour}).format('hA'));
         
         var taskDescription = $('<textarea>')
-            .addClass('col-9 text-dark description')
-            .attr('id', 'description')
-            .attr('hour', hour);
+            .addClass('col-9 text-dark description ' + hour)
+            // .addClass()
+            .attr('id', 'description');
+            // .attr('id', hour)
+            // .attr('hour', hour);
             
             currentHour(taskDescription, hour);
 
@@ -55,6 +59,7 @@ var setHoursOfDay = function() {
 
         var taskSave = $('<button>')
             .addClass('col saveBtn')
+            .attr('hour', hour)
             .append(taskSaveIcon);
 
         taskDiv
@@ -65,12 +70,80 @@ var setHoursOfDay = function() {
         $('.container')
             .append(taskDiv);
     };
+    loadTasks();
+};
+
+var saveTasks = function() {
+    localStorage.setItem("dayTasks", JSON.stringify(dayTasks));
+};
+
+var loadTasks = function() {
+    dayTasks = JSON.parse(localStorage.getItem("dayTasks"));
+  
+    // if nothing in localStorage, create a new object to track all task status arrays
+    if (!dayTasks) {
+        dayTasks = [];
+    }
+  
+    // console.log(dayTasks);
+    // $('.' + dayTasks[0].hour)
+    //     .text(dayTasks[0].task);
+    // loop over object properties
+    // $.each(dayTasks, function(index) {
+    //   // then loop over sub-array
+    //     console.log(dayTasks[index].tasks);
+    //     console.log(dayTasks.tasks);
+    for (i = 0; i < dayTasks.length; i++) {
+        // console.log(dayTasks[i].task);
+        $('.' + dayTasks[i].hour)
+            .text(dayTasks[i].task);
+    }
+    //   $('{dayTask}'.hour).text(dayTasks.task);
+    //   arr.forEach(function(dayTasks) {
+    //       $('{dayTask.hour}').text(task);
+    //     // createTask(dayTasks.task, dayTasks.hour, list);
+    //   });
+    // });
 };
 
 setHoursOfDay();
 
-setInterval(function () {
-    $(".card .list-group-item").each(function(index, el) {
-      auditTask(el);
+$('.saveBtn').on('click', function() {
+    var task = $(this).siblings('#description').val();
+    var hour = $(this).attr('hour');
+    console.log(task, hour);
+    // debugger;
+    // if (!dayTasks.length) {
+    //     dayTasks.push({
+    //         hour: hour,
+    //         task: task
+    //     });
+    // }
+    // else {
+    //     for (i = 0; i < dayTasks.length; i++) {
+    //         if (dayTasks[i].hour === hour) {
+    //             dayTasks[i].task = task;
+    //             break;
+    //         }
+    //         else {
+    //             dayTasks.push({
+    //                 hour: hour,
+    //                 task: task
+    //             });
+    //         };
+    //     };
+    // }
+    
+    dayTasks.push({
+        hour: hour,
+        task: task
     });
-  }, (1000 * 60) * 15);
+    
+    
+    console.log(dayTasks);
+    saveTasks();
+});
+
+setInterval(function () {
+    location.reload();
+}, (1000 * 60) * 15);
