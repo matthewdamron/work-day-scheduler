@@ -109,35 +109,43 @@ var loadTasks = function() {
 setHoursOfDay();
 
 $('.saveBtn').on('click', function() {
-    var task = $(this).siblings('#description').val();
-    var hour = $(this).attr('hour');
-    console.log(task, hour);
+    var taskHourDescription = $(this).siblings('#description').val();
+    var taskHourBlock = $(this).attr('hour');
+    console.log(taskHourDescription, taskHourBlock);
     // debugger;
-    // if (!dayTasks.length) {
-    //     dayTasks.push({
-    //         hour: hour,
-    //         task: task
-    //     });
-    // }
-    // else {
-    //     for (i = 0; i < dayTasks.length; i++) {
-    //         if (dayTasks[i].hour === hour) {
-    //             dayTasks[i].task = task;
-    //             break;
-    //         }
-    //         else {
-    //             dayTasks.push({
-    //                 hour: hour,
-    //                 task: task
-    //             });
-    //         };
-    //     };
-    // }
+    if (!dayTasks.length) {
+        dayTasks.push({
+            hour: taskHourBlock,
+            task: taskHourDescription
+        });
+        saveTasks();
+    }
+    else {
+        for (i = 0; i < dayTasks.length; i++) {
+            if (dayTasks[i].hour === taskHourBlock) {
+                dayTasks[i].task = taskHourDescription;
+                break;
+                console.log(dayTasks);
+                // saveTasks();
+            }
+            // else {
+            //     dayTasks.push({
+            //         hour: taskHourBlock,
+            //         task: taskHourDescription
+            //     });
+            //     saveTasks();
+            // };
+        };
+        dayTasks.push({
+            hour: taskHourBlock,
+            task: taskHourDescription
+        });
+    }
     
-    dayTasks.push({
-        hour: hour,
-        task: task
-    });
+    // dayTasks.push({
+    //     hour: taskHourBlock,
+    //     task: taskHourDescription
+    // });
     
     
     console.log(dayTasks);
