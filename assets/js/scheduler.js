@@ -1,23 +1,26 @@
-var dayTasks = [];
+// set array for hourly tasks
+var hourlyTasks = [];
 
-// pull and set current date form moment
+// pull and display current date from moment
 $('#currentDay').text(moment().format('MMMM Do YYYY'));
 
+// set description color based on the hour of the day
 var currentHour = function (taskDescription, hour) {
-    // var taskDescription = $('<textarea>');
-
+    // check to see if the current hour is in the past
     if (moment().hour() > hour) {
         taskDescription
             .addClass('past')
             .removeClass('present')
             .removeClass('future');
     }
+    // check to see if the current hour is now
     else if (moment().hour() === hour) {
         taskDescription
             .removeClass('past')
             .addClass('present')
             .removeClass('future');
     }
+    // check to see if the current hour is in future
     else {
         taskDescription
             .removeClass('past')
@@ -25,133 +28,113 @@ var currentHour = function (taskDescription, hour) {
             .addClass('future');
     }
 
+    // returns the current hour color
     return taskDescription;
 }
 
+// function to create hour time blocks
 var setHoursOfDay = function() {
-// generating textareas for scheduling
+    // set hours of the day from 9 to 5
     for (var hour = 9; hour < 18; hour++) {
-        // scheduledHours.push(moment({hour}).format('h  a'));
+        // create <div> for hour block
         var taskDiv = $('<div>')
-            .addClass('row');
+            .addClass('row m-1');
         
-        var taskHourSpan = $('<span>')
-            // .addClass('mx-auto')
-            .text(moment({hour}).format('hA'));
-        
+        // create <div> for hour
         var taskHourDiv = $('<div>')
             .addClass('col text-dark time-block')
-            // .attr('hour', hour)
-            // .append(taskHourSpan);
             .text(moment({hour}).format('hA'));
         
+        // create <textarea> for task description
         var taskDescription = $('<textarea>')
             .addClass('col-9 text-dark description ' + hour)
-            // .addClass()
             .attr('id', 'description');
-            // .attr('id', hour)
-            // .attr('hour', hour);
             
+            // assign color to task
             currentHour(taskDescription, hour);
 
+        // create <i> for save icon
         var taskSaveIcon = $('<i>')
             .addClass('far fa-save');
 
+        // create save button
         var taskSave = $('<button>')
             .addClass('col saveBtn')
             .attr('hour', hour)
             .append(taskSaveIcon);
 
+        // append all items to parrent div
         taskDiv
             .append(taskHourDiv)
             .append(taskDescription)
             .append(taskSave);
         
+        // append hour block to container
         $('.container')
             .append(taskDiv);
     };
+    // load hourly tasks from localStorage
     loadTasks();
 };
 
 var saveTasks = function() {
-    localStorage.setItem("dayTasks", JSON.stringify(dayTasks));
+    // set items into localStorage
+    localStorage.setItem("hourlyTasks", JSON.stringify(hourlyTasks));
 };
 
 var loadTasks = function() {
-    dayTasks = JSON.parse(localStorage.getItem("dayTasks"));
+    // get itmes from localStorage
+    hourlyTasks = JSON.parse(localStorage.getItem("hourlyTasks"));
   
     // if nothing in localStorage, create a new object to track all task status arrays
-    if (!dayTasks) {
-        dayTasks = [];
+    if (!hourlyTasks) {
+        hourlyTasks = [];
     }
-  
-    // console.log(dayTasks);
-    // $('.' + dayTasks[0].hour)
-    //     .text(dayTasks[0].task);
-    // loop over object properties
-    // $.each(dayTasks, function(index) {
-    //   // then loop over sub-array
-    //     console.log(dayTasks[index].tasks);
-    //     console.log(dayTasks.tasks);
-    for (i = 0; i < dayTasks.length; i++) {
-        // console.log(dayTasks[i].task);
-        $('.' + dayTasks[i].hour)
-            .text(dayTasks[i].task);
+
+    // loop through the items to place tasks into the correct hour block
+    for (i = 0; i < hourlyTasks.length; i++) {
+        $('.' + hourlyTasks[i].hour)
+            .text(hourlyTasks[i].task);
     }
-    //   $('{dayTask}'.hour).text(dayTasks.task);
-    //   arr.forEach(function(dayTasks) {
-    //       $('{dayTask.hour}').text(task);
-    //     // createTask(dayTasks.task, dayTasks.hour, list);
-    //   });
-    // });
 };
 
 setHoursOfDay();
 
+// event to see if clicked save button
 $('.saveBtn').on('click', function() {
+    // get var from silbling save button
     var taskHourDescription = $(this).siblings('#description').val();
+    // get hour from the button clicked
     var taskHourBlock = $(this).attr('hour');
-    console.log(taskHourDescription, taskHourBlock);
-    // debugger;
-    if (!dayTasks.length) {
-        dayTasks.push({
+
+    // check to see if there are any value in the hourlyTask array if not then load the first save in the array
+    if (!hourlyTasks.length) {
+        hourlyTasks.push({
             hour: taskHourBlock,
             task: taskHourDescription
         });
         saveTasks();
     }
+    // if there are saved values in the hourlyTask array then check if there are tasks in that hour already and update to new information.
     else {
-        for (i = 0; i < dayTasks.length; i++) {
-            if (dayTasks[i].hour === taskHourBlock) {
-                dayTasks[i].task = taskHourDescription;
-                break;
-                console.log(dayTasks);
-                // saveTasks();
+        for (i = 0; i < hourlyTasks.length; i++) {
+            if (hourlyTasks[i].hour === taskHourBlock) {
+                hourlyTasks[i].task = taskHourDescription;
+                saveTasks();
+                // exit out of function once the existing task has been updated
+                return;
             }
-            // else {
-            //     dayTasks.push({
-            //         hour: taskHourBlock,
-            //         task: taskHourDescription
-            //     });
-            //     saveTasks();
-            // };
         };
-        dayTasks.push({
+        // if there are no existing task then add them to the array
+        hourlyTasks.push({
             hour: taskHourBlock,
             task: taskHourDescription
         });
-    }
-    
-    // dayTasks.push({
-    //     hour: taskHourBlock,
-    //     task: taskHourDescription
-    // });
-    
-    
-    console.log(dayTasks);
-    saveTasks();
+        saveTasks();
+    }    
 });
 
+// set time interval to reload the page every 15 min
 setInterval(function () {
     location.reload();
 }, (1000 * 60) * 15);

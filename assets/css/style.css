@@ -23,27 +23,32 @@ textarea{
 
 .description{
   white-space: pre-wrap;
-  color: black;
+  /* color: black; */
+  border: 1px solid black;
 }
 
 .time-block{
   text-align: center;
+  vertical-align: middle;
+  line-height: 80px;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
-  border-top: 1px dashed #000000;
-  border-bottom: 1px dashed #000000;
-  border-left: 1px dashed #000000;
+  border: 1px solid black;
+  /* border-bottom: 1px solid #000000;
+  border-left: 1px solid #000000; */
 }
 
 .row {
   /* white-space: pre-wrap;  */
+  flex-wrap: nowrap;
   height: 80px;
-  border-top: 1px solid white;;
+  /* border-top: 1px solid white;; */
+  /* border: 1px solid #000000; */
 }
 
 .hour {
   background-color: #ffffff;
-  border-top: 1px dashed #000000;
+  /* border-top: 1px dashed #000000; */
 }
 
 .past {
