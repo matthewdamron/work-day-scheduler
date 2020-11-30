@@ -16,14 +16,17 @@ textarea{
 .jumbotron {
   text-align: center;
   background-color: transparent;
-  color: black;
+  color: cyan;
   border-radius: 0;
   border-bottom: 10px solid black;
+  background-image: url(../images/keybord.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: 'Space Mono', monospace;
 }
 
 .description{
   white-space: pre-wrap;
-  /* color: black; */
   border: 1px solid black;
 }
 
@@ -34,21 +37,15 @@ textarea{
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   border: 1px solid black;
-  /* border-bottom: 1px solid #000000;
-  border-left: 1px solid #000000; */
 }
 
 .row {
-  /* white-space: pre-wrap;  */
   flex-wrap: nowrap;
   height: 80px;
-  /* border-top: 1px solid white;; */
-  /* border: 1px solid #000000; */
 }
 
 .hour {
   background-color: #ffffff;
-  /* border-top: 1px dashed #000000; */
 }
 
 .past {
@@ -75,29 +72,4 @@ textarea{
   font-size: 25px;
   color: black;
   transition: all .3s ease-in-out;
-}
-
-.btn-add, .btn-save {
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-left: 1px solid black;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  background-color: #fa8bff;
-  background-image: linear-gradient(45deg, #fa8bff 0%, #2bd2ff 52%, #2bff88 90%);
-  transition: all .5s ease-out;
-  background-size: 1px 160px;
-  background-position: 0 -10px;
-}
-
-.btn-close, .btn-delete {
-  background-color: #ea0028;
-  background-image: linear-gradient(180deg, #ff9a8b 0%, #ea0028 100%);
-  transition: all .5s ease-out;
-  background-size: 1px 160px;
-  background-position: 0 -10px;
-}
-
-.btn-add:hover, .btn-save:hover, .btn-close:hover, .btn-delete:hover {
-background-position: 1px -50px;
 }

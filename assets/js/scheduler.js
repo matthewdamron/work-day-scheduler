@@ -30,7 +30,7 @@ var currentHour = function (taskDescription, hour) {
 
     // returns the current hour color
     return taskDescription;
-}
+};
 
 // function to create hour time blocks
 var setHoursOfDay = function() {
@@ -96,6 +96,11 @@ var loadTasks = function() {
         $('.' + hourlyTasks[i].hour)
             .text(hourlyTasks[i].task);
     }
+};
+
+var clearLocalSotrage = function() {
+    localStorage.removeItem('hourlyTasks');
+    location.reload();
 };
 
 setHoursOfDay();
