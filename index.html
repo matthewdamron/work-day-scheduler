@@ -44,6 +44,15 @@
       <button class="btn btn-warning" id="clearLocalStorage" onclick="clearLocalSotrage()">CLEAR ALL TASKS</button>
     </header>
     <div class="container">
+      <div class="text-center m-3">
+        <form>
+          <label class="m-2" for="startHour">Start Hour:</label>
+          <input type="time" name="startHour" id="startHour"></input>
+          <label class="m-2" for="endHour">End Hour:</label>
+          <input type="time" name="endHour" id="endHour"></input>
+          <button class="m-3 btn btn-primary" onclick="changeStartStopTime()">Submit</button>
+        </form>
+      </div>
       <!-- add hours here from javascript -->
     </div>
 
