@@ -22,7 +22,7 @@ textarea{
   background-image: url(../images/keybord.jpg);
   background-size: cover;
   background-position: center;
-  font-family: 'Space Mono', monospace;
+  font-family: 'Space Mono', monospace, sans-serif;
 }
 
 .description{
